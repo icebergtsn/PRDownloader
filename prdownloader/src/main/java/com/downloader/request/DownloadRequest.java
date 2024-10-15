@@ -47,6 +47,7 @@ public class DownloadRequest {
     private Status status;
 
     DownloadRequest(DownloadRequestBuilder builder) {
+        this.downloadId = builder.downloadId;
         this.url = builder.url;
         this.dirPath = builder.dirPath;
         this.fileName = builder.fileName;
@@ -209,13 +210,11 @@ public class DownloadRequest {
 
     public int start(OnDownloadListener onDownloadListener) {
         this.onDownloadListener = onDownloadListener;
-        downloadId = Utils.getUniqueId(url, dirPath, fileName);
         DownloadRequestQueue.getInstance().addRequest(this);
         return downloadId;
     }
 
     public Response executeSync() {
-        downloadId = Utils.getUniqueId(url, dirPath, fileName);
         return new SynchronousCall(this).execute();
     }
 

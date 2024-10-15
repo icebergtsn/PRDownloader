@@ -1,6 +1,7 @@
 package com.downloader.request;
 
 import com.downloader.Priority;
+import com.downloader.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.List;
 
 public class DownloadRequestBuilder implements RequestBuilder {
 
+    int downloadId;
     String url;
     String dirPath;
     String fileName;
@@ -22,7 +24,15 @@ public class DownloadRequestBuilder implements RequestBuilder {
     String userAgent;
     HashMap<String, List<String>> headerMap;
 
+    public DownloadRequestBuilder(int downloadId,String url, String dirPath, String fileName) {
+        this.downloadId = downloadId;
+        this.url = url;
+        this.dirPath = dirPath;
+        this.fileName = fileName;
+    }
+
     public DownloadRequestBuilder(String url, String dirPath, String fileName) {
+        this.downloadId = Utils.getUniqueId(url,dirPath,fileName);
         this.url = url;
         this.dirPath = dirPath;
         this.fileName = fileName;

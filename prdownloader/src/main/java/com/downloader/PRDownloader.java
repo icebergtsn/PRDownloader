@@ -57,6 +57,10 @@ public class PRDownloader {
         return new DownloadRequestBuilder(url, dirPath, fileName);
     }
 
+    public static DownloadRequestBuilder download(int downloadId, String url, String dirPath, String fileName) {
+        return new DownloadRequestBuilder(downloadId, url, dirPath, fileName);
+    }
+
     /**
      * Method to pause request with the given downloadId
      *
