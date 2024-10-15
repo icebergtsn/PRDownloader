@@ -6,7 +6,7 @@ package com.downloader;
 
 public interface OnDownloadListener {
 
-    void onDownloadComplete();
+    void onDownloadComplete(String path);
 
     void onError(Error error);
 

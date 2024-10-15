@@ -240,7 +240,8 @@ public class DownloadRequest {
                     .execute(new Runnable() {
                         public void run() {
                             if (onDownloadListener != null) {
-                                onDownloadListener.onDownloadComplete();
+                                String filePath = Utils.getPath(dirPath,fileName);
+                                onDownloadListener.onDownloadComplete(filePath);
                             }
                             finish();
                         }

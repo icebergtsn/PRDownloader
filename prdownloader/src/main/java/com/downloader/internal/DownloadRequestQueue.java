@@ -1,5 +1,7 @@
 package com.downloader.internal;
 
+import android.util.Log;
+
 import com.downloader.Status;
 import com.downloader.core.Core;
 import com.downloader.request.DownloadRequest;
@@ -51,6 +53,7 @@ public class DownloadRequestQueue {
 
     public void resume(int downloadId) {
         DownloadRequest request = currentRequestMap.get(downloadId);
+        Log.d("TEst",currentRequestMap.toString());
         if (request != null) {
             request.setStatus(Status.QUEUED);
             request.setFuture(Core.getInstance()
