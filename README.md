@@ -1,6 +1,5 @@
-<p align="center">
-<img alt="PRDownloader" src=https://raw.githubusercontent.com/amitshekhariitbhu/PRDownloader/master/assets/prdownloader.png />
-</p>
+Base On
+[amitshekhariitbhu:PRDownloader:1.0.1](https://github.com/amitshekhariitbhu/PRDownloader)
 
 # PRDownloader - A file downloader library for Android with pause and resume support
 
@@ -18,17 +17,6 @@
 * Many requests can be made in parallel.
 * All types of customization are possible.
 
-## About me
-
-Hi, I am Amit Shekhar, Co-Founder @ [Outcome School](https://outcomeschool.com) • IIT 2010-14 • I have taught and mentored many developers, and their efforts landed them high-paying tech jobs, helped many tech companies in solving their unique problems, and created many open-source libraries being used by top companies. I am passionate about sharing knowledge through open-source, blogs, and videos.
-
-You can connect with me on:
-
-- [Twitter](https://twitter.com/amitiitbhu)
-- [YouTube](https://www.youtube.com/@amitshekhar)
-- [LinkedIn](https://www.linkedin.com/in/amit-shekhar-iitbhu)
-- [GitHub](https://github.com/amitshekhariitbhu)
-
 ## Using PRDownloader Library in your Android application
 
 Add this in your `settings.gradle`:
@@ -43,12 +31,12 @@ maven { setUrl("https://jitpack.io") }
 
 Add this in your `build.gradle`
 ```groovy
-implementation 'com.github.amitshekhariitbhu:PRDownloader:1.0.1'
+implementation 'com.github.icebergtsn:PRDownloader:1.0.1'
 ```
 
 If you are using `build.gradle.kts`, add the following:
 ```kotlin
-implementation("com.github.amitshekhariitbhu:PRDownloader:1.0.1")
+implementation("com.github.icebergtsn:PRDownloader:1.0.1")
 ```
 
 Do not forget to add internet permission in manifest if already not present
@@ -146,32 +134,3 @@ Status status = PRDownloader.getStatus(downloadId);
 // Method to clean up temporary resumed files which is older than the given day
 PRDownloader.cleanUp(days);
 ```
-### TODO
-* Integration with other libraries like OkHttp, RxJava
-* Test Cases
-* And of course many many features and bug fixes
-
-## [Outcome School Blog](https://outcomeschool.com/blog) - High-quality content to learn Android concepts.
-
-## If this library helps you in anyway, show your love :heart: by putting a :star: on this project :v:
-
-### License
-```
-   Copyright (C) 2024 Amit Shekhar
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-```
-
-### Contributing to PRDownloader
-All pull requests are welcome, make sure to follow the [contribution guidelines](CONTRIBUTING.md)
-when you submit pull request.
