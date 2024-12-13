@@ -51,9 +51,9 @@ public class DownloadRequestQueue {
         }
     }
 
-    public void resume(int downloadId) {
+    public boolean resume(int downloadId) {
         DownloadRequest request = currentRequestMap.get(downloadId);
-        Log.d("TEst",currentRequestMap.toString());
+        Log.d("PRDownload",currentRequestMap.toString());
         if (request != null) {
             request.setStatus(Status.QUEUED);
             request.setFuture(Core.getInstance()
@@ -61,6 +61,7 @@ public class DownloadRequestQueue {
                     .forDownloadTasks()
                     .submit(new DownloadRunnable(request)));
         }
+        return request != null;
     }
 
     private void cancelAndRemoveFromMap(DownloadRequest request) {

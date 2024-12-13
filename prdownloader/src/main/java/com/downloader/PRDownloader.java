@@ -75,9 +75,11 @@ public class PRDownloader {
      * Method to resume request with the given downloadId
      *
      * @param downloadId The downloadId with which request is to be resumed
+     *
+     * @return https://github.com/amitshekhariitbhu/PRDownloader/issues/159
      */
-    public static void resume(int downloadId) {
-        DownloadRequestQueue.getInstance().resume(downloadId);
+    public static boolean resume(int downloadId) {
+        return DownloadRequestQueue.getInstance().resume(downloadId);
     }
 
     /**
