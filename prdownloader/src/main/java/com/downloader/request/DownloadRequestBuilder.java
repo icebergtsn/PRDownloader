@@ -80,7 +80,7 @@ public class DownloadRequestBuilder implements RequestBuilder {
     }
 
     @Override
-    public RequestBuilder setSendTimeLimit(int sendTimeLimit) {
+    public DownloadRequestBuilder setSendTimeLimit(int sendTimeLimit) {
         this.sendTimeLimit = sendTimeLimit;
         return this;
     }
