@@ -18,6 +18,8 @@ public interface RequestBuilder {
 
     RequestBuilder setConnectTimeout(int connectTimeout);
 
+    RequestBuilder setSendTimeLimit(int sendTimeLimit);
+
     RequestBuilder setUserAgent(String userAgent);
 
 }

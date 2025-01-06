@@ -29,6 +29,7 @@ public class DownloadTask {
     private static final int BUFFER_SIZE = 1024 * 4;
     private static final long TIME_GAP_FOR_SYNC = 2000;
     private static final long MIN_BYTES_FOR_SYNC = 65536;
+    private long lastProgressTime = 0;
     private final DownloadRequest request;
     private ProgressHandler progressHandler;
     private long lastSyncTime;
@@ -289,6 +290,13 @@ public class DownloadTask {
     }
 
     private void sendProgress() {
+        if (request.getSendTimeLimit() > 0) {
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastProgressTime < request.getSendTimeLimit()) {
+                return;
+            }
+            lastProgressTime = currentTime;
+        }
         if (request.getStatus() != Status.CANCELLED) {
             if (progressHandler != null) {
                 progressHandler

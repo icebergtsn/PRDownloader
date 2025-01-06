@@ -9,7 +9,6 @@ import android.content.Context;
 import com.downloader.core.Core;
 import com.downloader.internal.ComponentHolder;
 import com.downloader.internal.DownloadRequestQueue;
-import com.downloader.request.DownloadRequest;
 import com.downloader.request.DownloadRequestBuilder;
 import com.downloader.utils.Utils;
 

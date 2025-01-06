@@ -21,6 +21,7 @@ public class DownloadRequestBuilder implements RequestBuilder {
     Object tag;
     int readTimeout;
     int connectTimeout;
+    int sendTimeLimit;
     String userAgent;
     HashMap<String, List<String>> headerMap;
 
@@ -75,6 +76,12 @@ public class DownloadRequestBuilder implements RequestBuilder {
     @Override
     public DownloadRequestBuilder setConnectTimeout(int connectTimeout) {
         this.connectTimeout = connectTimeout;
+        return this;
+    }
+
+    @Override
+    public RequestBuilder setSendTimeLimit(int sendTimeLimit) {
+        this.sendTimeLimit = sendTimeLimit;
         return this;
     }
 

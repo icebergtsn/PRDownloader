@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Future;
 
+import static com.downloader.Constants.DEFAULT_TIME_GAP_FOR_SEND;
+
 /**
  * Created by amitshekhar on 13/11/17.
  */
@@ -36,6 +38,7 @@ public class DownloadRequest {
     private long totalBytes;
     private int readTimeout;
     private int connectTimeout;
+    private int sendTimeLimit;
     private String userAgent;
     private OnProgressListener onProgressListener;
     private OnDownloadListener onDownloadListener;
@@ -54,6 +57,7 @@ public class DownloadRequest {
         this.headerMap = builder.headerMap;
         this.priority = builder.priority;
         this.tag = builder.tag;
+        this.sendTimeLimit = builder.sendTimeLimit;
         this.readTimeout =
                 builder.readTimeout != 0 ?
                         builder.readTimeout :
@@ -155,6 +159,14 @@ public class DownloadRequest {
 
     public void setConnectTimeout(int connectTimeout) {
         this.connectTimeout = connectTimeout;
+    }
+
+    public int getSendTimeLimit() {
+        return sendTimeLimit;
+    }
+
+    public void setSendTimeLimit(int sendTimeLimit) {
+        this.sendTimeLimit = sendTimeLimit;
     }
 
     public String getUserAgent() {
