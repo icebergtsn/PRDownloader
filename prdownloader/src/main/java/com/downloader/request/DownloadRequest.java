@@ -19,8 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Future;
 
-import static com.downloader.Constants.DEFAULT_TIME_GAP_FOR_SEND;
-
 /**
  * Created by amitshekhar on 13/11/17.
  */
