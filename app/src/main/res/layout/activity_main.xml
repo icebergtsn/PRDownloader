@@ -39,7 +39,7 @@
                     android:layout_margin="2dp"
                     android:layout_weight="1"
 
-                    android:textAlignment="center" />
+                    />
 
                 <Button
                     android:id="@+id/buttonCancelOne"
@@ -89,7 +89,7 @@
                     android:layout_margin="2dp"
                     android:layout_weight="1"
 
-                    android:textAlignment="center" />
+                    />
 
                 <Button
                     android:id="@+id/buttonCancelTwo"
@@ -139,7 +139,7 @@
                     android:layout_margin="2dp"
                     android:layout_weight="1"
 
-                    android:textAlignment="center" />
+                    />
 
                 <Button
                     android:id="@+id/buttonCancelThree"
@@ -189,7 +189,7 @@
                     android:layout_margin="2dp"
                     android:layout_weight="1"
 
-                    android:textAlignment="center" />
+                    />
 
                 <Button
                     android:id="@+id/buttonCancelFour"
@@ -239,7 +239,7 @@
                     android:layout_margin="2dp"
                     android:layout_weight="1"
 
-                    android:textAlignment="center" />
+                    />
 
                 <Button
                     android:id="@+id/buttonCancelFive"
@@ -289,7 +289,7 @@
                     android:layout_margin="2dp"
                     android:layout_weight="1"
 
-                    android:textAlignment="center" />
+                    />
 
                 <Button
                     android:id="@+id/buttonCancelSix"
@@ -339,7 +339,7 @@
                     android:layout_margin="2dp"
                     android:layout_weight="1"
 
-                    android:textAlignment="center" />
+                    />
 
                 <Button
                     android:id="@+id/buttonCancelSeven"
@@ -389,7 +389,7 @@
                     android:layout_margin="2dp"
                     android:layout_weight="1"
 
-                    android:textAlignment="center" />
+                    />
 
                 <Button
                     android:id="@+id/buttonCancelEight"
@@ -439,7 +439,7 @@
                     android:layout_margin="2dp"
                     android:layout_weight="1"
 
-                    android:textAlignment="center" />
+                    />
 
                 <Button
                     android:id="@+id/buttonCancelNine"
@@ -489,7 +489,7 @@
                     android:layout_margin="2dp"
                     android:layout_weight="1"
 
-                    android:textAlignment="center" />
+                    />
 
                 <Button
                     android:id="@+id/buttonCancelTen"
@@ -539,7 +539,7 @@
                     android:layout_margin="2dp"
                     android:layout_weight="1"
 
-                    android:textAlignment="center" />
+                    />
 
                 <Button
                     android:id="@+id/buttonCancelEleven"
@@ -589,7 +589,7 @@
                     android:layout_margin="2dp"
                     android:layout_weight="1"
 
-                    android:textAlignment="center" />
+                    />
 
                 <Button
                     android:id="@+id/buttonCancelTwelve"
@@ -639,7 +639,7 @@
                     android:layout_margin="2dp"
                     android:layout_weight="1"
 
-                    android:textAlignment="center" />
+                    />
 
                 <Button
                     android:id="@+id/buttonCancelThirteen"
@@ -689,7 +689,7 @@
                     android:layout_margin="2dp"
                     android:layout_weight="1"
 
-                    android:textAlignment="center" />
+                    />
 
                 <Button
                     android:id="@+id/buttonCancelFourteen"
@@ -739,7 +739,7 @@
                     android:layout_margin="2dp"
                     android:layout_weight="1"
 
-                    android:textAlignment="center" />
+                    />
 
                 <Button
                     android:id="@+id/buttonCancelFifteen"

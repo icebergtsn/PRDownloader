@@ -45,6 +45,10 @@ public class PRDownloader {
         DownloadRequestQueue.initialize();
     }
 
+    public static DownloadRequestBuilder download(String url, String fileName) {
+        return new DownloadRequestBuilder(url, ComponentHolder.getInstance().getDownloadFilePath(), fileName);
+    }
+
     /**
      * Method to make download request
      *

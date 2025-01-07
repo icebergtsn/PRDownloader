@@ -302,7 +302,7 @@ public class DownloadRequest {
             future.cancel(true);
         }
         deliverCancelEvent();
-        Utils.deleteTempFileAndDatabaseEntryInBackground(Utils.getTempPath(dirPath, fileName), downloadId);
+        Utils.deleteTempFileAndDatabaseEntryInBackground(Utils.getTempPath(downloadId, fileName), downloadId);
     }
 
     private void finish() {

@@ -2,7 +2,6 @@ package com.sample;
 
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -18,7 +17,9 @@ import com.downloader.OnStartOrResumeListener;
 import com.downloader.PRDownloader;
 import com.downloader.Progress;
 import com.downloader.Status;
+import com.downloader.internal.ComponentHolder;
 import com.sample.utils.Utils;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dirPath = Utils.getRootDirPath(getApplicationContext());
+        dirPath = ComponentHolder.getInstance().getDownloadFilePath();
 
         init();
 
@@ -181,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 downloadIdOne = PRDownloader.download(URL1, dirPath, "facebook.apk")
+                        .setSendTimeLimit(1000)
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                             @Override

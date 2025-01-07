@@ -1,5 +1,13 @@
 package com.downloader.utils;
 
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
+
 import com.downloader.Constants;
 import com.downloader.core.Core;
 import com.downloader.database.DownloadModel;
@@ -9,11 +17,16 @@ import com.downloader.request.DownloadRequest;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by amitshekhar on 13/11/17.
@@ -27,30 +40,142 @@ public final class Utils {
         // no instance
     }
 
+    public static boolean isExternalStorageAvailable() {
+        String state = Environment.getExternalStorageState();
+        return Environment.MEDIA_MOUNTED.equals(state);
+    }
+
+    public static boolean isExternalStorageReadWrite() {
+        String state = Environment.getExternalStorageState();
+        return !Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
+    }
+
     public static String getPath(String dirPath, String fileName) {
         return dirPath + File.separator + fileName;
     }
 
-    public static String getTempPath(String dirPath, String fileName) {
-        return getPath(dirPath, fileName) + ".temp";
+    private static String generateTempFileUUID(String id, String dirPath, int fileName) {
+        String input = dirPath + "|" + fileName + "|" + id;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            return UUID.nameUUIDFromBytes(input.getBytes(StandardCharsets.UTF_8)).toString();
+        } else {
+            return UUID.nameUUIDFromBytes(input.getBytes(Charset.forName("UTF-8"))).toString();
+        }
     }
 
-    public static void renameFileName(String oldPath, String newPath) throws IOException {
+//    public static String getTempPath(String dirPath, String fileName) {
+//        return getPath(dirPath, fileName) + ".temp";
+//    }
+
+    public static String getTempPath(int id, String fileName) {
+        String downloadPath = ComponentHolder.getInstance().getTempFilePath();
+        String uuid = generateTempFileUUID(downloadPath, fileName, id);
+
+        String folderPath = downloadPath + File.separator + uuid;
+
+        File folder = new File(folderPath);
+        if (!folder.exists()) {
+            folder.mkdirs();
+        }
+
+        return folderPath + File.separator + fileName + ".temp";
+    }
+
+//    public static void renameFileName(String oldPath, String newPath) throws IOException {
+//        final File oldFile = new File(oldPath);
+//        try {
+//            final File newFile = new File(newPath);
+//            if (newFile.exists()) {
+//                if (!newFile.delete()) {
+//                    throw new IOException("Deletion Failed");
+//                }
+//            }
+//            if (!oldFile.renameTo(newFile)) {
+//                throw new IOException("Rename Failed");
+//            }
+//        } finally {
+//            if (oldFile.exists()) {
+//                //noinspection ResultOfMethodCallIgnored
+//                oldFile.delete();
+//            }
+//        }
+//    }
+
+
+    public static void renameFileName(Context context, String oldPath, String newDirPath, String newFileName) throws IOException {
         final File oldFile = new File(oldPath);
-        try {
-            final File newFile = new File(newPath);
-            if (newFile.exists()) {
-                if (!newFile.delete()) {
-                    throw new IOException("Deletion Failed");
-                }
+
+        if (!oldFile.exists()) {
+            throw new IOException("oldFile not exist：" + oldPath);
+        }
+
+        File newDir = new File(newDirPath);
+        if (!newDir.exists() && !newDir.mkdirs()) {
+            throw new IOException("create target file failure：" + newDirPath);
+        }
+
+        String finalFileName = generateUniqueFileName(newDir, newFileName);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            moveFileScopedStorage(context, oldFile, newDirPath, finalFileName);
+        } else {
+            File newFile = new File(newDir, finalFileName);
+            if (newFile.exists() && !newFile.delete()) {
+                throw new IOException("target file delete failure：" + newFile.getPath());
             }
             if (!oldFile.renameTo(newFile)) {
-                throw new IOException("Rename Failed");
+                throw new IOException("file move failure：" + oldFile.getPath() + " -> " + newFile.getPath());
             }
-        } finally {
-            if (oldFile.exists()) {
-                //noinspection ResultOfMethodCallIgnored
-                oldFile.delete();
+        }
+    }
+
+    private static String generateUniqueFileName(File targetDir, String fileName) {
+        String name = fileName;
+        String extension = "";
+
+        int dotIndex = fileName.lastIndexOf('.');
+        if (dotIndex > 0) {
+            name = fileName.substring(0, dotIndex);
+            extension = fileName.substring(dotIndex);
+        }
+
+        File file = new File(targetDir, fileName);
+        int count = 1;
+        while (file.exists()) {
+            file = new File(targetDir, name + "(" + count + ")" + extension);
+            count++;
+        }
+        return file.getName();
+    }
+
+    private static void moveFileScopedStorage(Context context, File oldFile, String newDirPath, String newFileName) throws IOException {
+        ContentResolver resolver = context.getContentResolver();
+
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.MediaColumns.DISPLAY_NAME, newFileName);
+        values.put(MediaStore.MediaColumns.RELATIVE_PATH, newDirPath);
+        values.put(MediaStore.MediaColumns.MIME_TYPE, "application/octet-stream");
+
+        Uri uri = resolver.insert(MediaStore.Files.getContentUri("external"), values);
+        if (uri == null) {
+            throw new IOException("create target file failure：" + newDirPath + "/" + newFileName);
+        }
+
+        try (InputStream in = resolver.openInputStream(Uri.fromFile(oldFile));
+             OutputStream out = resolver.openOutputStream(uri)) {
+            if (in == null || out == null) {
+                throw new IOException("can not open the input stream");
+            }
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = in.read(buffer)) > 0) {
+                out.write(buffer, 0, length);
+            }
+
+            if (!oldFile.delete()) {
+                throw new IOException("oldFile delete failure：" + oldFile.getPath());
             }
         }
     }
@@ -80,7 +205,7 @@ public final class Utils {
                                 .getUnwantedModels(days);
                         if (models != null) {
                             for (DownloadModel model : models) {
-                                final String tempPath = getTempPath(model.getDirPath(), model.getFileName());
+                                final String tempPath = getTempPath(model.getId(), model.getFileName());
                                 ComponentHolder.getInstance().getDbHelper().remove(model.getId());
                                 File file = new File(tempPath);
                                 if (file.exists()) {

@@ -69,7 +69,7 @@ public class DownloadTask {
                 progressHandler = new ProgressHandler(request.getOnProgressListener());
             }
 
-            tempPath = Utils.getTempPath(request.getDirPath(), request.getFileName());
+            tempPath = Utils.getTempPath(request.getDownloadId(), request.getFileName());
 
             File file = new File(tempPath);
 
@@ -205,7 +205,7 @@ public class DownloadTask {
 
             final String path = Utils.getPath(request.getDirPath(), request.getFileName());
 
-            Utils.renameFileName(tempPath, path);
+            Utils.renameFileName(ComponentHolder.getInstance().getContext(), tempPath, path, request.getFileName());
 
             response.setSuccessful(true);
 

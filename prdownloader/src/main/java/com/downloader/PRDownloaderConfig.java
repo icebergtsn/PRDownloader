@@ -14,6 +14,9 @@ public class PRDownloaderConfig {
     private String userAgent;
     private HttpClient httpClient;
     private boolean databaseEnabled;
+    private String tempPath;
+    private String downloadPath;
+
 
     private PRDownloaderConfig(Builder builder) {
         this.readTimeout = builder.readTimeout;
@@ -21,6 +24,8 @@ public class PRDownloaderConfig {
         this.userAgent = builder.userAgent;
         this.httpClient = builder.httpClient;
         this.databaseEnabled = builder.databaseEnabled;
+        this.tempPath = builder.tempPath;
+        this.downloadPath = builder.downloadPath;
     }
 
     public int getReadTimeout() {
@@ -41,6 +46,22 @@ public class PRDownloaderConfig {
 
     public String getUserAgent() {
         return userAgent;
+    }
+
+    public String getTempPath() {
+        return tempPath;
+    }
+
+    public void setTempPath(String tempPath) {
+        this.tempPath = tempPath;
+    }
+
+    public String getDownloadPath() {
+        return downloadPath;
+    }
+
+    public void setDownloadPath(String downloadPath) {
+        this.downloadPath = downloadPath;
     }
 
     public void setUserAgent(String userAgent) {
@@ -75,6 +96,10 @@ public class PRDownloaderConfig {
         HttpClient httpClient = new DefaultHttpClient();
         boolean databaseEnabled = false;
 
+        String tempPath;
+
+        String downloadPath;
+
         public Builder setReadTimeout(int readTimeout) {
             this.readTimeout = readTimeout;
             return this;
@@ -82,6 +107,16 @@ public class PRDownloaderConfig {
 
         public Builder setConnectTimeout(int connectTimeout) {
             this.connectTimeout = connectTimeout;
+            return this;
+        }
+
+        public Builder setTempPath(String tempPath) {
+            this.tempPath = tempPath;
+            return this;
+        }
+
+        public Builder setDownloadPath(String downloadPath) {
+            this.downloadPath = downloadPath;
             return this;
         }
 
