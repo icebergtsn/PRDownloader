@@ -1,6 +1,7 @@
 package com.sample;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.downloader.PRDownloader;
 import com.downloader.PRDownloaderConfig;
@@ -14,10 +15,14 @@ public class SampleApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        PRDownloaderConfig config = PRDownloaderConfig.newBuilder()
-                .setDatabaseEnabled(true)
-                .build();
-        PRDownloader.initialize(this, config);
+        try {
+            PRDownloaderConfig config = PRDownloaderConfig.newBuilder()
+                    .setDatabaseEnabled(true)
+                    .build();
+            PRDownloader.initialize(this, config);
+        }catch (Exception e){
+            Log.i("Download", "onCreate: e" + e.getMessage());
+        }
     }
 
 }

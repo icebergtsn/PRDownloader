@@ -44,7 +44,7 @@ public class ComponentHolder {
         this.httpClient = config.getHttpClient();
         this.tempFilePath = config.getTempPath();
         this.context = context;
-        if (config.getTempPath().isEmpty() && Utils.isExternalStorageAvailable() && Utils.isExternalStorageReadWrite()) {
+        if (config.getTempPath() != null && config.getTempPath().isEmpty() && Utils.isExternalStorageAvailable() && Utils.isExternalStorageReadWrite()) {
             File externalDownloadDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
             if (externalDownloadDir != null) {
                 this.tempFilePath = externalDownloadDir.getPath();
@@ -53,7 +53,7 @@ public class ComponentHolder {
             }
         }
         this.downloadFilePath = config.getDownloadPath();
-        if (config.getDownloadPath().isEmpty()) {
+        if (config.getDownloadPath()!= null && config.getDownloadPath().isEmpty()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 File downloadDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
                 if (downloadDir != null) {
