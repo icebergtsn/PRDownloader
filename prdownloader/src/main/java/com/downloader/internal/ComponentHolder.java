@@ -3,6 +3,7 @@ package com.downloader.internal;
 import android.content.Context;
 import android.os.Build;
 import android.os.Environment;
+import android.util.Log;
 
 import com.downloader.Constants;
 import com.downloader.PRDownloader;
@@ -12,6 +13,7 @@ import com.downloader.database.DbHelper;
 import com.downloader.database.NoOpsDbHelper;
 import com.downloader.httpclient.DefaultHttpClient;
 import com.downloader.httpclient.HttpClient;
+import com.downloader.utils.ScopedStorageHelper;
 import com.downloader.utils.Utils;
 
 import java.io.File;
@@ -29,8 +31,8 @@ public class ComponentHolder {
     private HttpClient httpClient;
     private DbHelper dbHelper;
     private String tempFilePath;
-    private String downloadFilePath;
 
+    private String downloadDirName;
     private Context context;
 
     public static ComponentHolder getInstance() {
@@ -42,9 +44,14 @@ public class ComponentHolder {
         this.connectTimeout = config.getConnectTimeout();
         this.userAgent = config.getUserAgent();
         this.httpClient = config.getHttpClient();
-        this.tempFilePath = config.getTempPath();
         this.context = context;
-        if (config.getTempPath() != null && config.getTempPath().isEmpty() && Utils.isExternalStorageAvailable() && Utils.isExternalStorageReadWrite()) {
+        this.dbHelper = config.isDatabaseEnabled() ? new AppDbHelper(context) : new NoOpsDbHelper();
+        if (config.isDatabaseEnabled()) {
+            PRDownloader.cleanUp(30);
+        }
+        this.tempFilePath = config.getTempPath();
+        this.downloadDirName = config.getDownloadDirName();
+        if ((config.getTempPath() == null || config.getTempPath().isEmpty()) && Utils.isExternalStorageAvailable() && Utils.isExternalStorageReadWrite()) {
             File externalDownloadDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
             if (externalDownloadDir != null) {
                 this.tempFilePath = externalDownloadDir.getPath();
@@ -52,24 +59,7 @@ public class ComponentHolder {
                 this.tempFilePath = context.getCacheDir().getPath();
             }
         }
-        this.downloadFilePath = config.getDownloadPath();
-        if (config.getDownloadPath()!= null && config.getDownloadPath().isEmpty()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                File downloadDir = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-                if (downloadDir != null) {
-                    this.downloadFilePath = downloadDir.getPath();
-                }
-            } else {
-                File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                if (downloadDir != null) {
-                    this.downloadFilePath = downloadDir.getPath();
-                }
-            }
-        }
-        this.dbHelper = config.isDatabaseEnabled() ? new AppDbHelper(context) : new NoOpsDbHelper();
-        if (config.isDatabaseEnabled()) {
-            PRDownloader.cleanUp(30);
-        }
+        Log.d("Download temp path", this.tempFilePath);
     }
 
     public int getReadTimeout() {
@@ -138,19 +128,26 @@ public class ComponentHolder {
         return tempFilePath;
     }
 
-    public String getDownloadFilePath() {
-        if (downloadFilePath == null) {
-            synchronized (ComponentHolder.class) {
-                if (downloadFilePath == null) {
-                    downloadFilePath = "";
-                }
-            }
-        }
-        return downloadFilePath;
-    }
-
     public Context getContext() {
         return context;
+    }
+
+    public String getDefaultDownloadFilePath(String param) {
+        String downloadFilePath = param;
+        if (param == null || param.isEmpty()) {
+            File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+            if (downloadDir != null) {
+                downloadFilePath = downloadDir.getPath();
+            }
+        }
+        if (downloadFilePath != null && !downloadFilePath.isEmpty() && this.downloadDirName != null && !this.downloadDirName.isEmpty()) {
+            downloadFilePath = downloadFilePath + File.separator + this.downloadDirName;
+        }
+        if (!ScopedStorageHelper.validateInputPath(this.getContext(), downloadFilePath)) {
+            throw new UnsupportedOperationException("download path error! downloadPath : " + downloadFilePath);
+        }
+        Log.d("Download path", downloadFilePath);
+        return downloadFilePath;
     }
 
 }

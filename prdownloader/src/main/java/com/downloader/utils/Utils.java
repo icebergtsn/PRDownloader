@@ -1,12 +1,7 @@
 package com.downloader.utils;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Context;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
-import android.provider.MediaStore;
 
 import com.downloader.Constants;
 import com.downloader.core.Core;
@@ -17,11 +12,8 @@ import com.downloader.request.DownloadRequest;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -56,12 +48,7 @@ public final class Utils {
 
     private static String generateTempFileUUID(String id, String dirPath, int fileName) {
         String input = dirPath + "|" + fileName + "|" + id;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            return UUID.nameUUIDFromBytes(input.getBytes(StandardCharsets.UTF_8)).toString();
-        } else {
-            return UUID.nameUUIDFromBytes(input.getBytes(Charset.forName("UTF-8"))).toString();
-        }
+        return UUID.nameUUIDFromBytes(input.getBytes(StandardCharsets.UTF_8)).toString();
     }
 
 //    public static String getTempPath(String dirPath, String fileName) {
@@ -117,8 +104,8 @@ public final class Utils {
 
         String finalFileName = generateUniqueFileName(newDir, newFileName);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            moveFileScopedStorage(context, oldFile, newDirPath, finalFileName);
+        if (ScopedStorageHelper.isScopedStorageRequired(context,newDirPath)) {
+            ScopedStorageHelper.moveFileScopedStorage(context, oldFile, newDirPath, finalFileName);
         } else {
             File newFile = new File(newDir, finalFileName);
             if (newFile.exists() && !newFile.delete()) {
@@ -147,37 +134,6 @@ public final class Utils {
             count++;
         }
         return file.getName();
-    }
-
-    private static void moveFileScopedStorage(Context context, File oldFile, String newDirPath, String newFileName) throws IOException {
-        ContentResolver resolver = context.getContentResolver();
-
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.MediaColumns.DISPLAY_NAME, newFileName);
-        values.put(MediaStore.MediaColumns.RELATIVE_PATH, newDirPath);
-        values.put(MediaStore.MediaColumns.MIME_TYPE, "application/octet-stream");
-
-        Uri uri = resolver.insert(MediaStore.Files.getContentUri("external"), values);
-        if (uri == null) {
-            throw new IOException("create target file failure：" + newDirPath + "/" + newFileName);
-        }
-
-        try (InputStream in = resolver.openInputStream(Uri.fromFile(oldFile));
-             OutputStream out = resolver.openOutputStream(uri)) {
-            if (in == null || out == null) {
-                throw new IOException("can not open the input stream");
-            }
-
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = in.read(buffer)) > 0) {
-                out.write(buffer, 0, length);
-            }
-
-            if (!oldFile.delete()) {
-                throw new IOException("oldFile delete failure：" + oldFile.getPath());
-            }
-        }
     }
 
     public static void deleteTempFileAndDatabaseEntryInBackground(final String path, final int downloadId) {

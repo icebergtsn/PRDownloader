@@ -46,7 +46,13 @@ public class PRDownloader {
     }
 
     public static DownloadRequestBuilder download(String url, String fileName) {
-        return new DownloadRequestBuilder(url, ComponentHolder.getInstance().getDownloadFilePath(), fileName);
+        String path = ComponentHolder.getInstance().getDefaultDownloadFilePath(null);
+        return new DownloadRequestBuilder(url, path, fileName);
+    }
+
+    public static DownloadRequestBuilder download(int downloadId, String url, String fileName) {
+        String path = ComponentHolder.getInstance().getDefaultDownloadFilePath(null);
+        return new DownloadRequestBuilder(downloadId, url,path, fileName);
     }
 
     /**

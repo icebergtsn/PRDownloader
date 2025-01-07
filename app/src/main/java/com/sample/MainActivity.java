@@ -23,8 +23,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static String dirPath;
-
     final String URL1 = "http://www.appsapk.com/downloading/latest/Facebook-119.0.0.23.70.apk";
     final String URL2 = "http://www.appsapk.com/downloading/latest/WeChat-6.5.7.apk";
     final String URL3 = "http://www.appsapk.com/downloading/latest/Instagram.apk";
@@ -73,8 +71,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        dirPath = ComponentHolder.getInstance().getDownloadFilePath();
 
         init();
 
@@ -181,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
-                downloadIdOne = PRDownloader.download(URL1, dirPath, "facebook.apk")
+                downloadIdOne = PRDownloader.download(URL1, "facebook.apk")
                         .setSendTimeLimit(1000)
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
@@ -268,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
                     PRDownloader.resume(downloadIdTwo);
                     return;
                 }
-                downloadIdTwo = PRDownloader.download(URL2, dirPath, "wechat.apk")
+                downloadIdTwo = PRDownloader.download(URL2, "wechat.apk")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                             @Override
@@ -354,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
                     PRDownloader.resume(downloadIdThree);
                     return;
                 }
-                downloadIdThree = PRDownloader.download(URL3, dirPath, "instagram.apk")
+                downloadIdThree = PRDownloader.download(URL3, "instagram.apk")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                             @Override
@@ -440,7 +436,7 @@ public class MainActivity extends AppCompatActivity {
                     PRDownloader.resume(downloadIdFour);
                     return;
                 }
-                downloadIdFour = PRDownloader.download(URL4, dirPath, "flashlight.apk")
+                downloadIdFour = PRDownloader.download(URL4, "flashlight.apk")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                             @Override
@@ -526,7 +522,7 @@ public class MainActivity extends AppCompatActivity {
                     PRDownloader.resume(downloadIdFive);
                     return;
                 }
-                downloadIdFive = PRDownloader.download(URL5, dirPath, "screenrecorder.apk")
+                downloadIdFive = PRDownloader.download(URL5, "screenrecorder.apk")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                             @Override
@@ -613,7 +609,7 @@ public class MainActivity extends AppCompatActivity {
                     PRDownloader.resume(downloadIdSix);
                     return;
                 }
-                downloadIdSix = PRDownloader.download(URL6, dirPath, "callrecorder.apk")
+                downloadIdSix = PRDownloader.download(URL6, "callrecorder.apk")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                             @Override
@@ -700,7 +696,7 @@ public class MainActivity extends AppCompatActivity {
                     PRDownloader.resume(downloadIdSeven);
                     return;
                 }
-                downloadIdSeven = PRDownloader.download(URL7, dirPath, "soundprofile.apk")
+                downloadIdSeven = PRDownloader.download(URL7, "soundprofile.apk")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                             @Override
@@ -787,7 +783,7 @@ public class MainActivity extends AppCompatActivity {
                     PRDownloader.resume(downloadIdEight);
                     return;
                 }
-                downloadIdEight = PRDownloader.download(URL8, dirPath, "evernote.apk")
+                downloadIdEight = PRDownloader.download(URL8, "evernote.apk")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                             @Override
@@ -873,7 +869,7 @@ public class MainActivity extends AppCompatActivity {
                     PRDownloader.resume(downloadIdNine);
                     return;
                 }
-                downloadIdNine = PRDownloader.download(URL9, dirPath, "ucbrowser.apk")
+                downloadIdNine = PRDownloader.download(URL9, "ucbrowser.apk")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                             @Override
@@ -959,7 +955,7 @@ public class MainActivity extends AppCompatActivity {
                     PRDownloader.resume(downloadIdTen);
                     return;
                 }
-                downloadIdTen = PRDownloader.download(URL10, dirPath, "barcodescanner.apk")
+                downloadIdTen = PRDownloader.download(URL10, "barcodescanner.apk")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                             @Override
@@ -1045,7 +1041,7 @@ public class MainActivity extends AppCompatActivity {
                     PRDownloader.resume(downloadIdEleven);
                     return;
                 }
-                downloadIdEleven = PRDownloader.download(URL11, dirPath, "BigBuckBunny.m4v")
+                downloadIdEleven = PRDownloader.download(URL11, "BigBuckBunny.m4v")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                             @Override
@@ -1131,7 +1127,7 @@ public class MainActivity extends AppCompatActivity {
                     PRDownloader.resume(downloadIdTwelve);
                     return;
                 }
-                downloadIdTwelve = PRDownloader.download(URL12, dirPath, "harry-porter.pdf")
+                downloadIdTwelve = PRDownloader.download(URL12, "harry-porter.pdf")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                             @Override
@@ -1217,7 +1213,7 @@ public class MainActivity extends AppCompatActivity {
                     PRDownloader.resume(downloadIdThirteen);
                     return;
                 }
-                downloadIdThirteen = PRDownloader.download(URL13, dirPath, "giphy.gif")
+                downloadIdThirteen = PRDownloader.download(URL13, "giphy.gif")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                             @Override
@@ -1304,7 +1300,7 @@ public class MainActivity extends AppCompatActivity {
                     PRDownloader.resume(downloadIdFourteen);
                     return;
                 }
-                downloadIdFourteen = PRDownloader.download(URL14, dirPath, "small.mp4")
+                downloadIdFourteen = PRDownloader.download(URL14, "small.mp4")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                             @Override
@@ -1391,7 +1387,7 @@ public class MainActivity extends AppCompatActivity {
                     PRDownloader.resume(downloadIdFifteen);
                     return;
                 }
-                downloadIdFifteen = PRDownloader.download(URL15, dirPath, "big_buck_bunny_720p_10mb.mp4")
+                downloadIdFifteen = PRDownloader.download(URL15, "big_buck_bunny_720p_10mb.mp4")
                         .build()
                         .setOnStartOrResumeListener(new OnStartOrResumeListener() {
                             @Override

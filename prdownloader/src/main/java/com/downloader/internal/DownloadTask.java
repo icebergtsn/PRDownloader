@@ -1,5 +1,7 @@
 package com.downloader.internal;
 
+import android.util.Log;
+
 import com.downloader.Constants;
 import com.downloader.Error;
 import com.downloader.Progress;
@@ -203,9 +205,7 @@ public class DownloadTask {
 
             } while (true);
 
-            final String path = Utils.getPath(request.getDirPath(), request.getFileName());
-
-            Utils.renameFileName(ComponentHolder.getInstance().getContext(), tempPath, path, request.getFileName());
+            Utils.renameFileName(ComponentHolder.getInstance().getContext(), tempPath, request.getDirPath(), request.getFileName());
 
             response.setSuccessful(true);
 
@@ -213,7 +213,8 @@ public class DownloadTask {
                 removeNoMoreNeededModelFromDatabase();
             }
 
-        } catch (IOException | IllegalAccessException e) {
+        } catch (IOException | IllegalAccessException | IllegalArgumentException e) {
+            Log.d("Download", "rename: " + e.getMessage());
             if (!isResumeSupported) {
                 deleteTempFile();
             }

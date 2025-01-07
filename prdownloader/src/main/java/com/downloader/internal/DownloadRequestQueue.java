@@ -53,7 +53,7 @@ public class DownloadRequestQueue {
 
     public boolean resume(int downloadId) {
         DownloadRequest request = currentRequestMap.get(downloadId);
-        Log.d("PRDownload",currentRequestMap.toString());
+        Log.d("Download",currentRequestMap.toString());
         if (request != null) {
             request.setStatus(Status.QUEUED);
             request.setFuture(Core.getInstance()

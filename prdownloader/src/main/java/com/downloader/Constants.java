@@ -15,6 +15,7 @@ public final class Constants {
     public static final String ETAG = "ETag";
     public static final String USER_AGENT = "User-Agent";
     public static final String DEFAULT_USER_AGENT = "PRDownloader";
+    public static final String DEFAULT_USER_DIR_NAME = "PRDownloader";
 
     public static final int DEFAULT_READ_TIMEOUT_IN_MILLS = 20_000;
     public static final int DEFAULT_CONNECT_TIMEOUT_IN_MILLS = 20_000;
